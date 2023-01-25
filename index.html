@@ -5,6 +5,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Minesweeper</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
-  <body></body>
+  <body>
+    <main class="game">
+      <header class="game__header header">
+        <div class="header__counter"><span>000</span></div>
+        <div class="header__reset reset">
+          <button class="reset__button button">
+            <svg><use href="./assets/sprite.svg#neutral"></use></svg>
+          </button>
+        </div>
+        <div class="header__timer"><span>000</span></div>
+      </header>
+      <section class="game__board board"></section>
+      <section class="game__popup popup"></section>
+    </main>
+    <script src="./js/Game.js" type="module"></script>
+  </body>
 </html>

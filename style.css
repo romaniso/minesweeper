@@ -1,0 +1,15 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-family: "Subway Ticker";
+  src: url("./assets/subway-ticker.ttf");
+}
+
+body {
+  font-family: "Subway Ticker", sans-serif;
+  font-size: 62.5%;
+}
