@@ -1,0 +1,17 @@
+{
+  "name": "minesweeper",
+  "version": "1.0.0",
+  "description": "It is my version of a well-known game 'Minesweeper' which comes from early 2000s. It is based on object oriented programming, a plain css and ES6 with JS Classes, Modules, arrow functions, etc. You are welcome to go through the code and suggest any other possible solutions",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "JS",
+    "Game",
+    "ES6",
+    "JS Classes"
+  ],
+  "author": "Roman Isopenko",
+  "license": "ISC"
+}
