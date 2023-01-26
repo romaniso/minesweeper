@@ -24,6 +24,7 @@ class Game extends UI {
   };
 
   #board = this.getElement(this.selectors.board);
+  #cellsElements = null;
 
   #rows = this.#config.easy.rows;
   #columns = this.#config.easy.columns;
@@ -41,6 +42,8 @@ class Game extends UI {
       for (let colsInGame = 0; colsInGame < this.#columns; colsInGame++) {
         const cell = new Cell(colsInGame, rowsInGame);
         this.#cells[rowsInGame].push(cell.createCell());
+        cell.element.addEventListener("click", cell.revealCell);
+        cell.element.addEventListener("contextmenu", cell.flagCell);
       }
     }
   }
@@ -50,6 +53,7 @@ class Game extends UI {
     cellsToAdd.forEach((cell) => {
       this.#board.appendChild(cell);
     });
+    this.#cellsElements = [...this.getAllElements(this.selectors.cell)];
   }
 }
 
