@@ -25,7 +25,7 @@ class Game extends UI {
   };
 
   #board = this.getElement(this.selectors.board);
-  #cellsElements = null;
+  #cellsElements = [];
   #counterElement = this.getElement(this.selectors.counter);
   #counter = new Counter(this.#config.easy.flags, this.#counterElement);
 
@@ -41,24 +41,37 @@ class Game extends UI {
   #createCells() {
     for (let rowsInGame = 0; rowsInGame < this.#rows; rowsInGame++) {
       const row = [];
-      this.#cells.push(row);
+      this.#cellsElements.push(row);
       for (let colsInGame = 0; colsInGame < this.#columns; colsInGame++) {
         const cell = new Cell(colsInGame, rowsInGame);
-        this.#cells[rowsInGame].push(cell.createCell());
+        this.#cells.push(cell);
+        this.#cellsElements[rowsInGame].push(cell.createCell());
         cell.element.addEventListener("click", cell.revealCell);
-        cell.element.addEventListener("contextmenu", (e) =>
-          cell.flagCell(this.#counter, e)
-        );
+        cell.element.addEventListener("contextmenu", (e) => {
+          cell.flagCell(this.#counter, e);
+          console.log(cell);
+        });
       }
     }
   }
   #addCells() {
     this.#createCells();
-    const cellsToAdd = this.#cells.flat();
+    this.#setMines(this.#cells);
+    const cellsToAdd = this.#cellsElements.flat();
     cellsToAdd.forEach((cell) => {
       this.#board.appendChild(cell);
     });
-    this.#cellsElements = [...this.getAllElements(this.selectors.cell)];
+  }
+  #setMines(cells) {
+    let minesToAdd = 0;
+    while (minesToAdd < this.#mines) {
+      const index = Math.floor(Math.random() * cells.length);
+      if (!cells[index].isMined) {
+        cells[index].isMined = true;
+        //  this.#cellsElements.flat()[index].classList.add("cell--mined");
+        minesToAdd++;
+      }
+    }
   }
 }
 

@@ -65,6 +65,7 @@ svg {
   justify-content: space-between;
   align-items: center;
   background-color: var(--primary-grey);
+  margin-bottom: 1rem;
 }
 
 .header__counter,
@@ -105,7 +106,7 @@ svg {
 }
 .button {
   flex: 1;
-  padding: 0.7rem 0;
+  padding: 0.4rem 0;
   font-size: 1.4rem;
   font-family: "Subway Ticker", sans-serif;
   background-color: var(--greenish);
@@ -137,6 +138,7 @@ svg {
 }
 .cell--flagged:hover {
   animation: flag-flash infinite 0.3s ease-out;
+  opacity: 1;
 }
 .cell--mined {
   background-image: url("./assets/bomb.svg");

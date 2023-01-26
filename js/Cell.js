@@ -35,7 +35,7 @@ export class Cell {
       counter.decreaseCounter();
       return;
     }
-    if (counter.usedFlags !== counter.maxNumberOfFlags) {
+    if (counter.usedFlags !== counter.maxNumberOfFlags && !this.isRevealed) {
       this.isFlagged = !this.isFlagged;
       this.element.classList.toggle("cell--flagged");
       counter.increaseCounter();
