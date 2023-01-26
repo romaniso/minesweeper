@@ -1,5 +1,6 @@
-import { Cell } from "./Cell.js";
 import { UI } from "./UI.js";
+import { Cell } from "./Cell.js";
+import { Counter } from "./Counter.js";
 
 class Game extends UI {
   #config = {
@@ -25,6 +26,8 @@ class Game extends UI {
 
   #board = this.getElement(this.selectors.board);
   #cellsElements = null;
+  #counterElement = this.getElement(this.selectors.counter);
+  #counter = new Counter(this.#config.easy.flags, this.#counterElement);
 
   #rows = this.#config.easy.rows;
   #columns = this.#config.easy.columns;
@@ -43,7 +46,9 @@ class Game extends UI {
         const cell = new Cell(colsInGame, rowsInGame);
         this.#cells[rowsInGame].push(cell.createCell());
         cell.element.addEventListener("click", cell.revealCell);
-        cell.element.addEventListener("contextmenu", cell.flagCell);
+        cell.element.addEventListener("contextmenu", (e) =>
+          cell.flagCell(this.#counter, e)
+        );
       }
     }
   }

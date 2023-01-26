@@ -27,10 +27,18 @@ export class Cell {
       console.log(this);
     }
   };
-  flagCell = (e) => {
+  flagCell = (counter, e) => {
     e.preventDefault();
-    this.isFlagged = !this.isFlagged;
-    this.element.classList.toggle("cell--flagged");
-    console.log(this);
+    if (this.isFlagged) {
+      this.isFlagged = !this.isFlagged;
+      this.element.classList.toggle("cell--flagged");
+      counter.decreaseCounter();
+      return;
+    }
+    if (counter.usedFlags !== counter.maxNumberOfFlags) {
+      this.isFlagged = !this.isFlagged;
+      this.element.classList.toggle("cell--flagged");
+      counter.increaseCounter();
+    }
   };
 }

@@ -13,11 +13,11 @@
     background-color: var(--primary-grey);
   }
 }
-/*@keyframes flag-flash {
+@keyframes flag-flash {
   50% {
     background-image: none;
   }
-}*/
+}
 
 body {
   margin: 0;
@@ -124,13 +124,19 @@ svg {
   width: 3.5rem;
   height: 3.5rem;
   cursor: pointer;
+  transition: all 0.3s ease 0s;
+}
+.cell:hover {
+  opacity: 0.5;
 }
 .cell--flagged {
   background-image: url("./assets/flag.svg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: 2.5rem;
-  /*animation: flag-flash infinite 0.3s ease-out;*/
+}
+.cell--flagged:hover {
+  animation: flag-flash infinite 0.3s ease-out;
 }
 .cell--mined {
   background-image: url("./assets/bomb.svg");
