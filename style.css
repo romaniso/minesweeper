@@ -148,6 +148,6 @@ svg {
   background-color: var(--alarm-color);
   animation: bomb-flash infinite 0.7s ease-out;
 }
-/*.cell--revealed {
-  border-color: var(--lightpurple);
-}*/
+.cell--revealed {
+  border-color: #a1a1a1;
+}

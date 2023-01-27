@@ -23,7 +23,8 @@ export class Cell {
     if (!this.isFlagged) {
       this.isRevealed = true;
       this.element.classList.remove("border--convex");
-      this.element.classList.add("border--pressed");
+      this.element.classList.add("cell--revealed");
+      if (this.isMined) this.element.classList.add("cell--mined");
       console.log(this);
     }
   };
@@ -41,4 +42,20 @@ export class Cell {
       counter.increaseCounter();
     }
   };
+  numberOfMinesAround(cells) {
+    const cellX = this.x;
+    const cellY = this.y;
+    for (let row = 0; row < cells.length; row++) {
+      for (let col = 0; col < cells[row].length; col++) {
+        if (
+          (cellY === row - 1 || cellY === row + 1 || cellY === row) &&
+          (cellX === col - 1 || cellX === col + 1 || cellX === col)
+        ) {
+          if ((row !== cellY || col !== cellX) && cells[row][col].isMined) {
+            this.value++;
+          }
+        }
+      }
+    }
+  }
 }
