@@ -5,6 +5,16 @@
   --greenish: #b2e44d;
   --dark-greenish: #8db53d;
   --alarm-color: #db5072;
+
+  /* value colors */
+  --one-value: #6d1bf2;
+  --two-value: #c428e3;
+  --three-value: #eb1a91;
+  --four-value: #dc4747;
+  --five-value: #f2800f;
+  --six-value: #ebc81a;
+  --seven-value: #ddeb1a;
+  --eight-value: #ff0000;
 }
 
 /* Animations */
@@ -55,7 +65,7 @@ svg {
   background-color: var(--primary-grey);
   padding: 1.5rem;
   width: 370px;
-  margin: 0 auto;
+  margin: 3rem auto 0;
   border-radius: 1rem;
 }
 
@@ -118,14 +128,21 @@ svg {
   transition: background-color 0.3s ease 0s;
 }
 .button:hover {
-  background-color: var(--dark-greenish);
+  background-color: var(--one-value);
+  color: #ffffff;
 }
 .cell {
   display: inline-block;
   width: 3.5rem;
   height: 3.5rem;
   cursor: pointer;
-  transition: all 0.3s ease 0s;
+  transition: all 0.2s ease 0s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--alarm-color);
+  font-weight: bold;
+  border-radius: 0.7rem;
 }
 .cell:hover {
   opacity: 0.5;
@@ -150,4 +167,28 @@ svg {
 }
 .cell--revealed {
   border-color: #a1a1a1;
+}
+.cell--value-1 {
+  color: var(--one-value);
+}
+.cell--value-2 {
+  color: var(--two-value);
+}
+.cell--value-3 {
+  color: var(--three-value);
+}
+.cell--value-4 {
+  color: var(--four-value);
+}
+.cell--value-5 {
+  color: var(--five-value);
+}
+.cell--value-6 {
+  color: var(--six-value);
+}
+.cell--value-7 {
+  color: var(--seven-value);
+}
+.cell--value-8 {
+  color: var(--eight-value);
 }

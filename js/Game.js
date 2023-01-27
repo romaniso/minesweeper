@@ -1,6 +1,7 @@
 import { UI } from "./UI.js";
 import { Cell } from "./Cell.js";
 import { Counter } from "./Counter.js";
+import { Timer } from "./Timer.js";
 
 class Game extends UI {
   #config = {
@@ -28,6 +29,7 @@ class Game extends UI {
   #cellsElements = [];
   #counterElement = this.getElement(this.selectors.counter);
   #counter = new Counter(this.#config.easy.flags, this.#counterElement);
+  #timer = new Timer();
 
   #rows = this.#config.easy.rows;
   #columns = this.#config.easy.columns;
@@ -47,7 +49,10 @@ class Game extends UI {
         const cell = new Cell(colsInGame, row);
         this.#cells[row].push(cell);
         this.#cellsElements[row].push(cell.createCell());
-        cell.element.addEventListener("click", cell.revealCell);
+        cell.element.addEventListener("click", () => {
+          cell.revealCell(this.#cells);
+          this.#startGame();
+        });
         cell.element.addEventListener("contextmenu", (e) => {
           cell.flagCell(this.#counter, e);
         });
@@ -73,10 +78,16 @@ class Game extends UI {
       const index = Math.floor(Math.random() * cells.length);
       if (!cells[index].isMined) {
         cells[index].isMined = true;
-        this.#cellsElements.flat()[index].classList.add("cell--mined");
+        //  this.#cellsElements.flat()[index].classList.add("cell--mined");
         minesToAdd++;
       }
     }
+  }
+  #startGame() {
+    this.#timer.startTimer();
+  }
+  #endGame() {
+    this.#timer.stopTimer();
   }
 }
 
