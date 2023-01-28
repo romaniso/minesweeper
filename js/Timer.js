@@ -8,6 +8,7 @@ export class Timer extends UI {
 
   startTimer() {
     if (!this.#started) {
+      this.#currentSecond = 0;
       this.#started = true;
       this.#interval = setInterval(() => {
         this.#currentSecond++;
@@ -17,6 +18,7 @@ export class Timer extends UI {
   }
   stopTimer() {
     clearInterval(this.#interval);
+    this.#started = false;
     console.log("stop");
   }
 }

@@ -8,6 +8,7 @@ export class Cell extends Timer {
     this.isMined = false;
     this.isFlagged = false;
     this.isRevealed = false;
+    this.isFired = false;
   }
   element = null;
   createCell() {
@@ -19,13 +20,14 @@ export class Cell extends Timer {
     return this.element;
   }
   revealCell = (cells) => {
+    if (!this.element) return;
     if (!this.isFlagged) {
       this.isRevealed = true;
       this.element.classList.remove("border--convex");
       this.element.classList.add("cell--revealed");
       if (this.isMined) {
         this.element.classList.add("cell--mined");
-        this.stopTimer();
+        this.isFired = true;
         return;
       }
       if (this.value) {
@@ -37,6 +39,7 @@ export class Cell extends Timer {
   };
   flagCell = (counter, e) => {
     e.preventDefault();
+    if (!this.element) return;
     if (this.isFlagged) {
       this.isFlagged = !this.isFlagged;
       this.element.classList.toggle("cell--flagged");

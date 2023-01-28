@@ -24,12 +24,20 @@ class Game extends UI {
       flags: 99,
     },
   };
+  #buttons = {
+    reset: null,
+    easy: null,
+    normal: null,
+    expert: null,
+  };
 
   #board = this.getElement(this.selectors.board);
   #cellsElements = [];
   #counterElement = this.getElement(this.selectors.counter);
   #counter = new Counter(this.#config.easy.flags, this.#counterElement);
   #timer = new Timer();
+
+  #gameOver = false;
 
   #rows = this.#config.easy.rows;
   #columns = this.#config.easy.columns;
@@ -39,6 +47,11 @@ class Game extends UI {
 
   initGame() {
     this.#addCells();
+    if (!this.#gameOver) {
+      this.#cells.flat().forEach((cell) => {
+        this.#addEventListenerOnCell(cell);
+      });
+    }
   }
   #createCells() {
     for (let row = 0; row < this.#rows; row++) {
@@ -49,19 +62,26 @@ class Game extends UI {
         const cell = new Cell(colsInGame, row);
         this.#cells[row].push(cell);
         this.#cellsElements[row].push(cell.createCell());
-        cell.element.addEventListener("click", () => {
-          cell.revealCell(this.#cells);
-          this.#startGame();
-        });
-        cell.element.addEventListener("contextmenu", (e) => {
-          cell.flagCell(this.#counter, e);
-        });
       }
     }
     this.#setMines(this.#cells.flat());
     this.#cells.flat().forEach((cell) => cell.numberOfMinesAround(this.#cells));
     // this.#cells.flat()[44].numberOfMinesAround(this.#cells);
     // this.#cells.flat()[44].element.style.backgroundColor = "pink";
+  }
+  #addEventListenerOnCell(cell) {
+    cell.element.addEventListener("click", () => {
+      cell.revealCell(this.#cells);
+      if (cell.isFired) {
+        this.#endGame();
+        return;
+      } else {
+        this.#startGame();
+      }
+    });
+    cell.element.addEventListener("contextmenu", (e) => {
+      cell.flagCell(this.#counter, e);
+    });
   }
 
   #addCells() {
@@ -84,10 +104,32 @@ class Game extends UI {
     }
   }
   #startGame() {
-    this.#timer.startTimer();
+    if (!this.#gameOver) {
+      this.#timer.startTimer();
+      console.log("start");
+    }
   }
   #endGame() {
+    this.#gameOver = true;
     this.#timer.stopTimer();
+    console.log("Game over: " + this.#gameOver);
+
+    setTimeout(() => {
+      this.#cells
+        .flat()
+        .filter((cell) => cell.isMined)
+        .forEach((mine) => {
+          mine.element.classList.add("cell--mined");
+          mine.element = null;
+        });
+      this.#cells.flat().forEach((cell) => {
+        if (!cell.isMined) {
+          cell.element.style.opacity = ".3";
+          // Remove bonding between class object and an DOM element
+          cell.element = null;
+        }
+      });
+    }, 500);
   }
 }
 
