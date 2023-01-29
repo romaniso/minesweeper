@@ -25,11 +25,12 @@ class Game extends UI {
     },
   };
   #buttons = {
-    reset: null,
-    easy: null,
-    normal: null,
-    expert: null,
+    reset: this.getElement(this.selectors.buttons.reset),
+    easy: this.getElement(this.selectors.buttons.easy),
+    normal: this.getElement(this.selectors.buttons.normal),
+    expert: this.getElement(this.selectors.buttons.expert),
   };
+  #mood = this.#buttons.reset.querySelector("svg use");
 
   #board = this.getElement(this.selectors.board);
   #cellsElements = [];
@@ -50,8 +51,10 @@ class Game extends UI {
     if (!this.#gameOver) {
       this.#cells.flat().forEach((cell) => {
         this.#addEventListenerOnCell(cell);
+        cell.removeFlags();
       });
     }
+    this.#buttonsEventListeners();
   }
   #createCells() {
     for (let row = 0; row < this.#rows; row++) {
@@ -59,7 +62,7 @@ class Game extends UI {
       this.#cellsElements.push([]);
       this.#cells.push([]);
       for (let colsInGame = 0; colsInGame < this.#columns; colsInGame++) {
-        const cell = new Cell(colsInGame, row);
+        const cell = new Cell(colsInGame, row, this.#counter);
         this.#cells[row].push(cell);
         this.#cellsElements[row].push(cell.createCell());
       }
@@ -80,7 +83,7 @@ class Game extends UI {
       }
     });
     cell.element.addEventListener("contextmenu", (e) => {
-      cell.flagCell(this.#counter, e);
+      cell.flagCell(e);
     });
   }
 
@@ -106,13 +109,11 @@ class Game extends UI {
   #startGame() {
     if (!this.#gameOver) {
       this.#timer.startTimer();
-      console.log("start");
     }
   }
   #endGame() {
     this.#gameOver = true;
     this.#timer.stopTimer();
-    console.log("Game over: " + this.#gameOver);
 
     setTimeout(() => {
       this.#cells
@@ -129,7 +130,20 @@ class Game extends UI {
           cell.element = null;
         }
       });
+      this.#mood.setAttribute("href", "./assets/sprite.svg#sad");
     }, 500);
+  }
+  #resetGame = () => {
+    this.#gameOver = false;
+    this.#cells.length = 0;
+    this.#cellsElements.length = 0;
+    this.#board.innerHTML = "";
+    this.#mood.setAttribute("href", "./assets/sprite.svg#neutral");
+    this.#timer.resetTimer();
+    this.initGame();
+  };
+  #buttonsEventListeners() {
+    this.#buttons.reset.addEventListener("click", this.#resetGame);
   }
 }
 

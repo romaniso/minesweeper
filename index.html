@@ -12,7 +12,7 @@
       <header class="game__header header border border--pressed">
         <div class="header__counter"><span data-counter>000</span></div>
         <div class="header__reset reset" title="reset the game">
-          <button class="reset__button button border border--convex">
+          <button class="reset__button button border border--convex" data-reset>
             <svg><use href="./assets/sprite.svg#neutral"></use></svg>
           </button>
         </div>
@@ -24,9 +24,9 @@
         <div class="cell border border--convex cell--flagged"></div>-->
       </section>
       <section class="game__buttons">
-        <button class="button border border--convex">Easy</button>
-        <button class="button border border--convex">Normal</button>
-        <button class="button border border--convex">Pro</button>
+        <button class="button border border--convex" data-easy>Easy</button>
+        <button class="button border border--convex" data-normal>Normal</button>
+        <button class="button border border--convex" data-expert>Pro</button>
       </section>
     </main>
     <section class="game__popup popup"></section>

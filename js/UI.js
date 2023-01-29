@@ -4,6 +4,12 @@ export class UI {
     cell: "[data-cell]",
     counter: "[data-counter]",
     timer: "[data-timer]",
+    buttons: {
+      reset: "[data-reset]",
+      easy: "[data-easy]",
+      normal: "[data-normal]",
+      expert: "[data-expert]",
+    },
   };
 
   getElement(selector) {

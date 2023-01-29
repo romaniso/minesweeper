@@ -1,6 +1,6 @@
 import { Timer } from "./Timer.js";
 export class Cell extends Timer {
-  constructor(x, y) {
+  constructor(x, y, counter) {
     super();
     this.y = y;
     this.x = x;
@@ -9,6 +9,7 @@ export class Cell extends Timer {
     this.isFlagged = false;
     this.isRevealed = false;
     this.isFired = false;
+    this.counter = counter;
   }
   element = null;
   createCell() {
@@ -37,21 +38,29 @@ export class Cell extends Timer {
       }
     }
   };
-  flagCell = (counter, e) => {
+  flagCell = (e) => {
     e.preventDefault();
     if (!this.element) return;
     if (this.isFlagged) {
       this.isFlagged = !this.isFlagged;
       this.element.classList.toggle("cell--flagged");
-      counter.decreaseCounter();
+      this.counter.decreaseCounter();
       return;
     }
-    if (counter.usedFlags !== counter.maxNumberOfFlags && !this.isRevealed) {
+    if (
+      this.counter.usedFlags !== this.counter.maxNumberOfFlags &&
+      !this.isRevealed
+    ) {
       this.isFlagged = !this.isFlagged;
       this.element.classList.toggle("cell--flagged");
-      counter.increaseCounter();
+      this.counter.increaseCounter();
     }
   };
+  removeFlags() {
+    this.isFlagged = false;
+    this.element.classList.remove("cell--flagged");
+    this.counter.decreaseCounter();
+  }
   numberOfMinesAround(cells) {
     const cellX = this.x;
     const cellY = this.y;
@@ -72,13 +81,14 @@ export class Cell extends Timer {
     if (value) {
       this.element.textContent = value;
       this.element.classList.add(`cell--value-${value}`);
+      this.removeFlags();
     }
   }
   #revealMany(cells) {
     const cellX = this.x;
     const cellY = this.y;
     const rows = cells.length;
-    console.log(this);
+    // console.log(this);
 
     let cellsToReveal = 0;
 
@@ -99,6 +109,7 @@ export class Cell extends Timer {
             neigboringCell.element.classList.add("cell--revealed");
             cellsToReveal--;
           } else if (!neigboringCell.value) {
+            neigboringCell.removeFlags();
             neigboringCell.isRevealed = true;
             neigboringCell.element.classList.remove("border--convex");
             neigboringCell.element.classList.add("cell--revealed");
