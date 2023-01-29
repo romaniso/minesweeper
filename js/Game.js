@@ -10,18 +10,21 @@ class Game extends UI {
       columns: 8,
       mines: 10,
       flags: 10,
+      boardWidth: 370,
     },
     normal: {
       rows: 16,
       columns: 16,
       mines: 40,
       flags: 40,
+      boardWidth: 730,
     },
     expert: {
       rows: 30,
       columns: 16,
       mines: 99,
       flags: 99,
+      boardWidth: 1365,
     },
   };
   #buttons = {
@@ -142,8 +145,28 @@ class Game extends UI {
     this.#timer.resetTimer();
     this.initGame();
   };
+  #changeLevel(level) {
+    // document.documentElement.style.setProperty("--board-width", "730px");
+    document.querySelector(".game").style.width = `${
+      this.#config[level].boardWidth
+    }px`;
+    this.#rows = this.#config[level].rows;
+    this.#columns = this.#config[level].columns;
+    this.#mines = this.#config[level].mines;
+    this.#flags = this.#config[level].flags;
+    this.#resetGame();
+  }
   #buttonsEventListeners() {
     this.#buttons.reset.addEventListener("click", this.#resetGame);
+    this.#buttons.easy.addEventListener("click", () =>
+      this.#changeLevel("easy")
+    );
+    this.#buttons.normal.addEventListener("click", () =>
+      this.#changeLevel("normal")
+    );
+    this.#buttons.expert.addEventListener("click", () =>
+      this.#changeLevel("expert")
+    );
   }
 }
 

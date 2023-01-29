@@ -9,6 +9,7 @@ export class Timer extends UI {
   resetTimer() {
     this.#currentSecond = 0;
     this.#element.innerHTML = `00${this.#currentSecond}`;
+    clearInterval(this.#interval);
     this.#started = false;
   }
   startTimer() {
