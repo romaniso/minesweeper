@@ -91,33 +91,38 @@ export class Cell extends Timer {
     // console.log(this);
 
     let cellsToReveal = 0;
+    do {
+      for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cells[row].length; col++) {
+          if (
+            (cellY === row - 1 || cellY === row + 1 || cellY === row) &&
+            (cellX === col - 1 || cellX === col + 1 || cellX === col)
+          ) {
+            const neigboringCell = cells[row][col];
+            if (!neigboringCell.isMined) {
+              cellsToReveal++;
+            } else return;
 
-    for (let row = 0; row < rows; row++) {
-      for (let col = 0; col < cells[row].length; col++) {
-        if (
-          (cellY === row - 1 || cellY === row + 1 || cellY === row) &&
-          (cellX === col - 1 || cellX === col + 1 || cellX === col)
-        ) {
-          const neigboringCell = cells[row][col];
-          if (!neigboringCell.isMined) {
-            cellsToReveal++;
-          } else return;
-          if (neigboringCell.value) {
-            neigboringCell.#showValue(neigboringCell.value);
-            neigboringCell.isRevealed = true;
-            neigboringCell.element.classList.remove("border--convex");
-            neigboringCell.element.classList.add("cell--revealed");
-            cellsToReveal--;
-          } else if (!neigboringCell.value) {
-            neigboringCell.removeFlags();
-            neigboringCell.isRevealed = true;
-            neigboringCell.element.classList.remove("border--convex");
-            neigboringCell.element.classList.add("cell--revealed");
+            if (neigboringCell.value) {
+              neigboringCell.#showValue(neigboringCell.value);
+              neigboringCell.isRevealed = true;
+              neigboringCell.element.classList.remove("border--convex");
+              neigboringCell.element.classList.add("cell--revealed");
+              cellsToReveal--;
+            } else if (!neigboringCell.value) {
+              neigboringCell.removeFlags();
+              neigboringCell.isRevealed = true;
+              neigboringCell.element.classList.remove("border--convex");
+              neigboringCell.element.classList.add("cell--revealed");
+              cellsToReveal--;
+              //  this.#revealMany(cells);
 
-            //Loop once again
+              //Loop once again
+            }
           }
+          console.log(cellsToReveal);
         }
       }
-    }
+    } while (cellsToReveal);
   }
 }

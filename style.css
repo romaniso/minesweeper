@@ -16,6 +16,8 @@
   --seven-value: #ddeb1a;
   --eight-value: #ff0000;
 
+  --scale-value: 1;
+
   /*--easy-board-width: 370px;
   --normal-board-width: 730px;
   --expert-board-width: 1365px;*/
@@ -64,12 +66,14 @@ svg {
   border-color: var(--dark-grey) var(--dark-grey) var(--lightpurple)
     var(--lightpurple);
 }
-
 .game {
   background-color: var(--primary-grey);
   padding: 1.5rem;
+  position: absolute;
   width: 370px;
-  margin: 3rem auto 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(var(--scale-value));
   border-radius: 1rem;
 }
 

@@ -41,7 +41,7 @@ class Game extends UI {
   #counter = new Counter(this.#config.easy.flags, this.#counterElement);
   #timer = new Timer();
 
-  #gameOver = false;
+  gameOver = false;
 
   #rows = this.#config.easy.rows;
   #columns = this.#config.easy.columns;
@@ -51,12 +51,14 @@ class Game extends UI {
 
   initGame() {
     this.#addCells();
-    if (!this.#gameOver) {
+    if (!this.gameOver) {
       this.#cells.flat().forEach((cell) => {
         this.#addEventListenerOnCell(cell);
         cell.removeFlags();
       });
     }
+    this.resizeWindow();
+    window.addEventListener("resize", this.resizeWindow);
     this.#buttonsEventListeners();
   }
   #createCells() {
@@ -110,12 +112,12 @@ class Game extends UI {
     }
   }
   #startGame() {
-    if (!this.#gameOver) {
+    if (!this.gameOver) {
       this.#timer.startTimer();
     }
   }
   #endGame() {
-    this.#gameOver = true;
+    this.gameOver = true;
     this.#timer.stopTimer();
 
     setTimeout(() => {
@@ -137,7 +139,7 @@ class Game extends UI {
     }, 500);
   }
   #resetGame = () => {
-    this.#gameOver = false;
+    this.gameOver = false;
     this.#cells.length = 0;
     this.#cellsElements.length = 0;
     this.#board.innerHTML = "";
@@ -155,6 +157,7 @@ class Game extends UI {
     this.#mines = this.#config[level].mines;
     this.#flags = this.#config[level].flags;
     this.#resetGame();
+    this.resizeWindow();
   }
   #buttonsEventListeners() {
     this.#buttons.reset.addEventListener("click", this.#resetGame);
@@ -167,6 +170,16 @@ class Game extends UI {
     this.#buttons.expert.addEventListener("click", () =>
       this.#changeLevel("expert")
     );
+  }
+  resizeWindow() {
+    const { innerWidth: width, innerHeight: height } = window;
+    const { offsetWidth: gameWidth, offsetHeight: gameHeight } =
+      document.querySelector("[data-game]");
+    const scale = Math.min(width / gameWidth, height / gameHeight);
+    const scaleValue = "--scale-value";
+    console.log(width);
+
+    document.documentElement.style.setProperty(scaleValue, scale);
   }
 }
 
